@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyTarget : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    private Transform target;
     private NavMeshAgent navAgent;
 
     private void Awake()
@@ -13,8 +13,13 @@ public class EnemyTarget : MonoBehaviour
         navAgent = GetComponent<NavMeshAgent>();
     }
 
+    private void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
     private void Update()
     {
-        navAgent.destination = target.position;
+        navAgent.SetDestination(target.position);
     }
 }

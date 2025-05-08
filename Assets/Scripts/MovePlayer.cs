@@ -9,6 +9,7 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] private InputActionAsset _actionAsset;
     [SerializeField] private Rigidbody playerRb;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Animator animator;
     
     [SerializeField] private float speed = 8f;
    
@@ -41,6 +42,8 @@ public class MovePlayer : MonoBehaviour
         _movement = _move.ReadValue<Vector2>();
         _rotate = _point.ReadValue<Vector2>();
         Move();
+        bool isWalking = playerRb.velocity.magnitude > 0;
+        animator.SetBool("IsWalking", isWalking);
     }
 
     private void FixedUpdate()
@@ -51,9 +54,13 @@ public class MovePlayer : MonoBehaviour
 
     private void Move()
     {
+
         Vector3 move = new Vector3(_movement.x, 0, _movement.y);
+
         move.Normalize();
         playerRb.MovePosition(transform.position + move * speed * Time.deltaTime);
+
+        
         
     }
 
